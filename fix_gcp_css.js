@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix GCP CSS
 // @namespace    http://tampermonkey.net/
-// @version      2025-04-18
+// @version      2025-05-07
 // @description  try to take over the world!
 // @author       You
 // @match        https://console.cloud.google.com/*
@@ -12,22 +12,32 @@
 (function() {
     'use strict';
 
+    // Inject a global CSS override
+    // fix for trigger forms to be too small
+    const css = `
+    build-configuration > form, trigger-configuration > form, trigger-form > form {
+      max-width: 1024px !important;
+    }
+    `;
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    // fix for a double scroll bar (only on firefox)
     document.body.style.overflowY = 'hidden';
 
-    const MAX_WIDTH_VALUE = '100%'; // Change cette valeur si tu veux une autre largeur
-
     function applyMaxWidth() {
-        const tables = document.querySelectorAll('cfc-table.cfc-max-width-base.ng-star-inserted');
-        tables.forEach((table) => {
-            table.style.maxWidth = MAX_WIDTH_VALUE;
-            // table.style.margin = '0 auto'; // Pour centrer, facultatif
+        // fix for revision env var in cloud run to be too small
+        const revisionEnvVarDiv = document.querySelectorAll('cfc-table.cfc-max-width-base.ng-star-inserted');
+        revisionEnvVarDiv.forEach((table) => {
+            table.style.maxWidth = '100%';
         });
     }
 
-    // Exécute au chargement initial
+    // Execute on ready
     applyMaxWidth();
 
-    // Observe les changements du DOM (utile si le tableau est ajouté dynamiquement)
+    // Execute on DOM change
     const observer = new MutationObserver(() => {
         applyMaxWidth();
     });
