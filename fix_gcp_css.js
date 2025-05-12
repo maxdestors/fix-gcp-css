@@ -15,8 +15,8 @@
     // Inject a global CSS override
     // fix for trigger forms to be too small
     const css = `
-    build-configuration > form, trigger-configuration > form, trigger-form > form {
-      max-width: 1024px !important;
+    .cfc-max-width-base, .cm-gm2 form {
+      max-width: 1024px;
     }
     `;
     const style = document.createElement('style');
