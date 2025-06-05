@@ -15,7 +15,7 @@
     // Inject a global CSS override
     // fix for trigger forms to be too small
     const css = `
-    .cfc-max-width-base, .cm-gm2 form {
+    .cfc-max-width-base, .cm-gm2 form, .cm-gm2 form[sandboxuid="0"], .cfc-ng2-region .cfc-max-width-base[sandboxuid="0"] {
       max-width: 1024px;
     }
     `;
